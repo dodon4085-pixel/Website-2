@@ -1,124 +1,83 @@
-// ==========================
-// 🔧 Dinhata Buzzer Hub - Admin Control Script
-// ==========================
+/* ===================================================
+   🧠 Dinhata Buzzer Hub Admin Panel (Advanced)
+   Password + Telegram + Dark Mode + Responsive
+   =================================================== */
 
-console.log("Admin control panel initialized ✅");
+// Load Telegram Config
+const { BOT_TOKEN, CHAT_ID, ADMIN_NAME } = TELEGRAM_CONFIG;
 
-// 🧩 Default Config (imported from config.js)
-const ADMIN_CONFIG = {
-    defaultPassword: "admin123",
-};
+// ===== Password Protection =====
+const ADMIN_PASSWORD = "buzzer@2025"; // 🔒 change as you like
 
-// ==========================
-// 🔐 Password Management
-// ==========================
-function changeAdminPassword() {
-    const oldPass = prompt("Enter current password:");
-    const savedPass = localStorage.getItem("adminPass") || ADMIN_CONFIG.defaultPassword;
+const loginModal = document.getElementById("loginModal");
+const loginForm = document.getElementById("loginForm");
+const dashboard = document.getElementById("dashboard");
 
-    if (oldPass !== savedPass) {
-        alert("❌ Wrong current password!");
-        return;
-    }
+// Show modal on load
+window.addEventListener("load", () => {
+  loginModal.style.display = "flex";
+  dashboard.style.display = "none";
+});
 
-    const newPass = prompt("Enter new password:");
-    if (!newPass || newPass.length < 4) {
-        alert("⚠️ Password must be at least 4 characters!");
-        return;
-    }
+// Login form submit
+loginForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const password = document.getElementById("adminPassword").value.trim();
 
-    localStorage.setItem("adminPass", newPass);
-    alert("✅ Password changed successfully!");
+  if (password === ADMIN_PASSWORD) {
+    loginModal.style.display = "none";
+    dashboard.style.display = "flex";
+    sendTelegramMessage(`✅ ${ADMIN_NAME} just logged in to the admin panel.`);
+  } else {
+    alert("❌ Incorrect password!");
+    sendTelegramMessage(`🚫 Failed admin login attempt detected.`);
+  }
+});
+
+// ===== Telegram Integration =====
+async function sendTelegramMessage(text) {
+  const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+  const payload = {
+    chat_id: CHAT_ID,
+    text: text,
+    parse_mode: "HTML",
+  };
+
+  try {
+    await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+  } catch (err) {
+    console.error("Telegram Error:", err);
+  }
 }
 
-// ==========================
-// 💾 Backup / Restore System
-// ==========================
-function backupData() {
-    const allData = {
-        adminPass: localStorage.getItem("adminPass"),
-        timestamp: new Date().toLocaleString(),
-    };
+// ===== Dark Mode Toggle =====
+const darkToggle = document.getElementById("darkToggle");
+darkToggle.addEventListener("click", () => {
+  document.body.classList.toggle("dark");
+  darkToggle.innerHTML = document.body.classList.contains("dark") ? "☀️" : "🌙";
+});
 
-    const blob = new Blob([JSON.stringify(allData, null, 2)], { type: "application/json" });
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = "admin_backup.json";
-    link.click();
+// ===== Sidebar Actions (optional demo) =====
+document.querySelectorAll(".sidebar a").forEach((link) => {
+  link.addEventListener("click", (e) => {
+    document.querySelectorAll(".sidebar a").forEach((a) => a.classList.remove("active"));
+    e.target.classList.add("active");
 
-    alert("✅ Backup file downloaded successfully!");
+    const section = e.target.dataset.section;
+    document.querySelectorAll(".card").forEach((c) => (c.style.display = "none"));
+    if (section) document.getElementById(section).style.display = "block";
+  });
+});
+
+// ===== Telegram Test Button =====
+const testBtn = document.getElementById("testTelegram");
+if (testBtn) {
+  testBtn.addEventListener("click", () => {
+    sendTelegramMessage(`🧪 Test message from ${ADMIN_NAME}'s admin panel.`);
+    alert("Test message sent to Telegram ✅");
+  });
 }
-
-function restoreData() {
-    const input = document.createElement("input");
-    input.type = "file";
-    input.accept = "application/json";
-
-    input.onchange = function (event) {
-        const file = event.target.files[0];
-        if (!file) return;
-
-        const reader = new FileReader();
-        reader.onload = function (e) {
-            try {
-                const data = JSON.parse(e.target.result);
-                if (data.adminPass) {
-                    localStorage.setItem("adminPass", data.adminPass);
-                    alert("✅ Backup restored successfully!");
-                } else {
-                    alert("⚠️ Invalid backup file!");
-                }
-            } catch (err) {
-                alert("❌ Error reading backup file!");
-                console.error(err);
-            }
-        };
-        reader.readAsText(file);
-    };
-
-    input.click();
-}
-
-// ==========================
-// 📢 Telegram Bot Control
-// ==========================
-async function sendTestTelegram() {
-    if (!TELEGRAM_CONFIG?.BOT_TOKEN || !TELEGRAM_CONFIG?.CHAT_ID) {
-        alert("⚠️ Telegram configuration missing in config.js");
-        return;
-    }
-
-    const url = `https://api.telegram.org/bot${TELEGRAM_CONFIG.BOT_TOKEN}/sendMessage`;
-    const payload = {
-        chat_id: TELEGRAM_CONFIG.CHAT_ID,
-        text: "🧪 Test message from Admin Panel – Telegram integration working!",
-        parse_mode: "HTML",
-    };
-
-    try {
-        const res = await fetch(url, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload),
-        });
-
-        if (res.ok) {
-            alert("✅ Test message sent successfully!");
-        } else {
-            alert("⚠️ Failed to send Telegram message!");
-        }
-    } catch (err) {
-        console.error(err);
-        alert("❌ Network error while sending message!");
-    }
-}
-
-// ==========================
-// ⚙️ UI Shortcuts (can be called from HTML buttons)
-// ==========================
-window.AdminPanel = {
-    changePassword: changeAdminPassword,
-    backup: backupData,
-    restore: restoreData,
-    testTelegram: sendTestTelegram,
-};

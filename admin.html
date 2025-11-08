@@ -1,239 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel - Dinhata Buzzer Hub</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
-
-        body {
-            background: #f5f7fa;
-            color: #333;
-            min-height: 100vh;
-        }
-
-        header {
-            background: #2874f0;
-            color: white;
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        header h1 {
-            font-size: 22px;
-        }
-
-        .logout-btn {
-            background: #ff4d4d;
-            border: none;
-            padding: 8px 14px;
-            border-radius: 6px;
-            color: white;
-            cursor: pointer;
-            font-weight: 500;
-        }
-
-        .container {
-            display: flex;
-            flex-wrap: wrap;
-            padding: 20px;
-            gap: 20px;
-        }
-
-        .card {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            flex: 1 1 300px;
-            min-width: 280px;
-            padding: 20px;
-            transition: transform 0.3s ease;
-        }
-
-        .card:hover { transform: translateY(-3px); }
-
-        .card h3 {
-            color: #2874f0;
-            margin-bottom: 10px;
-        }
-
-        .btn {
-            background: #2874f0;
-            border: none;
-            color: white;
-            padding: 8px 14px;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 10px;
-            font-weight: 500;
-        }
-
-        .btn:hover { background: #185ad8; }
-
-        .login-modal {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6);
-            display: flex; justify-content: center; align-items: center;
-            z-index: 1000;
-        }
-
-        .login-box {
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            width: 90%;
-            max-width: 400px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            text-align: center;
-        }
-
-        .login-box h2 { margin-bottom: 20px; }
-
-        .login-box input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            margin-bottom: 15px;
-            outline: none;
-        }
-
-        .login-box button {
-            width: 100%;
-            padding: 10px;
-            background: #2874f0;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-
-        .login-box button:hover { background: #185ad8; }
-
-        footer {
-            text-align: center;
-            padding: 15px;
-            color: #555;
-            background: #f1f1f1;
-            margin-top: 30px;
-        }
-
-        @media (max-width: 600px) {
-            header h1 { font-size: 18px; }
-            .card h3 { font-size: 18px; }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dinhata Buzzer Hub - Admin Panel</title>
+  <link rel="stylesheet" href="admin-style.css" />
+  <script src="config.js"></script>
 </head>
 <body>
-    <div id="loginModal" class="login-modal">
-        <div class="login-box">
-            <h2>Admin Login</h2>
-            <input type="password" id="adminPassword" placeholder="Enter admin password">
-            <button onclick="verifyPassword()">Login</button>
-        </div>
+  <!-- 🔐 Login Modal -->
+  <div class="login-modal" id="loginModal">
+    <div class="login-box">
+      <h2>Admin Login</h2>
+      <form id="loginForm">
+        <input type="password" id="adminPassword" placeholder="Enter Admin Password" required />
+        <button type="submit">Login</button>
+      </form>
     </div>
+  </div>
 
-    <header>
-        <h1>⚙️ Admin Panel</h1>
-        <button class="logout-btn" onclick="logout()">Logout</button>
+  <!-- 🧭 Dashboard -->
+  <div class="dashboard" id="dashboard" style="display:none;">
+    <!-- Header -->
+    <header class="admin-header">
+      <h1>🛠️ Dinhata Buzzer Hub</h1>
+      <div class="header-actions">
+        <button id="darkToggle" class="toggle-dark">🌙</button>
+        <button id="testTelegram" class="header-btn">Test Telegram</button>
+      </div>
     </header>
 
-    <div class="container">
-        <div class="card">
-            <h3>🛍️ Products</h3>
-            <p>Manage and update product listings.</p>
-            <button class="btn" onclick="alert('Open Product Manager')">Open</button>
-        </div>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <a href="#" class="active" data-section="overview">📊 Overview</a>
+      <a href="#" data-section="orders">📦 Orders</a>
+      <a href="#" data-section="products">🛍️ Products</a>
+      <a href="#" data-section="users">👥 Users</a>
+      <a href="#" data-section="settings">⚙️ Settings</a>
+    </aside>
 
-        <div class="card">
-            <h3>📦 Orders</h3>
-            <p>View, confirm or update customer orders.</p>
-            <button class="btn" onclick="sendTelegram('New order check requested')">Check Orders</button>
-        </div>
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Overview -->
+      <div class="card" id="overview">
+        <h3>Dashboard Overview</h3>
+        <p>Welcome, <b>Biswajit Roy</b> 👋<br>
+        You are now logged in as Admin.</p>
+      </div>
 
-        <div class="card">
-            <h3>👥 Users</h3>
-            <p>Manage customer accounts and feedback.</p>
-            <button class="btn" onclick="alert('Open Users Section')">View Users</button>
-        </div>
+      <!-- Orders -->
+      <div class="card" id="orders" style="display:none;">
+        <h3>Orders</h3>
+        <p>All recent customer orders will appear here.</p>
+      </div>
 
-        <div class="card">
-            <h3>📨 Messages</h3>
-            <p>Read customer messages and support requests.</p>
-            <button class="btn" onclick="alert('Open Messages')">Open Inbox</button>
-        </div>
+      <!-- Products -->
+      <div class="card" id="products" style="display:none;">
+        <h3>Products</h3>
+        <p>Manage your products list here.</p>
+      </div>
 
-        <div class="card">
-            <h3>⚙️ Settings</h3>
-            <p>Update admin password, Telegram config, and backup data.</p>
-            <button class="btn" onclick="alert('Open Settings')">Configure</button>
-        </div>
-    </div>
+      <!-- Users -->
+      <div class="card" id="users" style="display:none;">
+        <h3>Users</h3>
+        <p>View registered users and their details.</p>
+      </div>
 
-    <footer>
-        <p>© 2025 Dinhata Buzzer Hub | Admin: Biswajit Roy</p>
-    </footer>
+      <!-- Settings -->
+      <div class="card" id="settings" style="display:none;">
+        <h3>Panel Settings</h3>
+        <p>Adjust system configurations, change password, and update Telegram settings.</p>
+      </div>
+    </main>
+  </div>
 
-    <script src="config.js"></script>
-    <script>
-        const defaultPassword = "admin123";
-
-        function verifyPassword() {
-            const inputPass = document.getElementById("adminPassword").value;
-            const savedPass = localStorage.getItem("adminPass") || defaultPassword;
-
-            if (inputPass === savedPass) {
-                document.getElementById("loginModal").style.display = "none";
-                sessionStorage.setItem("isAdminLogged", "true");
-            } else {
-                alert("❌ Incorrect password!");
-            }
-        }
-
-        function logout() {
-            sessionStorage.removeItem("isAdminLogged");
-            location.reload();
-        }
-
-        window.onload = function() {
-            if (sessionStorage.getItem("isAdminLogged") === "true") {
-                document.getElementById("loginModal").style.display = "none";
-            }
-        };
-
-        // Send Telegram Notification
-        async function sendTelegram(message) {
-            if (!TELEGRAM_CONFIG?.BOT_TOKEN || !TELEGRAM_CONFIG?.CHAT_ID) {
-                console.error("Telegram config missing");
-                return;
-            }
-
-            const url = `https://api.telegram.org/bot${TELEGRAM_CONFIG.BOT_TOKEN}/sendMessage`;
-            const payload = {
-                chat_id: TELEGRAM_CONFIG.CHAT_ID,
-                text: `📢 Dinhata Buzzer Hub Admin\n\n${message}`,
-                parse_mode: "HTML"
-            };
-
-            try {
-                await fetch(url, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(payload)
-                });
-                alert("✅ Message sent to Telegram!");
-            } catch (err) {
-                alert("⚠️ Failed to send message!");
-                console.error(err);
-            }
-        }
-    </script>
+  <script src="admin.js"></script>
 </body>
 </html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dinhata Buzzer Hub - Products</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="admin-header">
+    <h1>🛒 Dinhata Buzzer Hub - Products</h1>
+    <button class="logout-btn" onclick="window.location.href='index.html'">Logout</button>
+  </header>
+
+  <main class="admin-container">
+    <!-- Product Card 1 -->
+    <div class="admin-card">
+      <h2>Electric Buzzer</h2>
+      <p>High-quality sound buzzer for school & quiz systems.</p>
+      <p><strong>Price:</strong> ₹120</p>
+      <button onclick="addToCart('Electric Buzzer', 120)">Add to Cart</button>
+    </div>
+
+    <!-- Product Card 2 -->
+    <div class="admin-card">
+      <h2>Wireless Buzzer Kit</h2>
+      <p>Complete wireless buzzer setup with controller.</p>
+      <p><strong>Price:</strong> ₹450</p>
+      <button onclick="addToCart('Wireless Buzzer Kit', 450)">Add to Cart</button>
+    </div>
+
+    <!-- Product Card 3 -->
+    <div class="admin-card">
+      <h2>NodeMCU Wi-Fi Module</h2>
+      <p>ESP8266 based IoT module for smart control systems.</p>
+      <p><strong>Price:</strong> ₹250</p>
+      <button onclick="addToCart('NodeMCU Wi-Fi Module', 250)">Add to Cart</button>
+    </div>
+
+    <!-- Product Card 4 -->
+    <div class="admin-card">
+      <h2>IRF3205 MOSFET</h2>
+      <p>Powerful MOSFET for motor/buzzer control circuits.</p>
+      <p><strong>Price:</strong> ₹80</p>
+      <button onclick="addToCart('IRF3205 MOSFET', 80)">Add to Cart</button>
+    </div>
+
+    <!-- Product Card 5 -->
+    <div class="admin-card">
+      <h2>Full Buzzer Kit</h2>
+      <p>Complete set of all components for Dinhata Buzzer Hub.</p>
+      <p><strong>Price:</strong> ₹999</p>
+      <button onclick="addToCart('Full Buzzer Kit', 999)">Add to Cart</button>
+    </div>
+  </main>
+
+  <footer class="admin-footer">
+    © 2025 Dinhata Buzzer Hub | Designed by Biswajit Roy
+  </footer>
+
+  <script>
+    // Add to cart function (localStorage)
+    function addToCart(name, price) {
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      cart.push({ name, price });
+      localStorage.setItem("cart", JSON.stringify(cart));
+      alert(`${name} added to cart ✅`);
+    }
+  </script>
+</body>
+</html>

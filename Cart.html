@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Cart - Dinhata Buzzer Hub</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="admin-header">
+    <h1>🛍️ Your Shopping Cart</h1>
+    <button class="logout-btn" onclick="window.location.href='products.html'">Back to Shop</button>
+  </header>
+
+  <main class="admin-container" id="cartContainer">
+    <!-- Cart items will be inserted dynamically -->
+  </main>
+
+  <div style="text-align:center; margin:20px;">
+    <button class="logout-btn" style="background:#00d1ff;" onclick="checkout()">Proceed to Checkout</button>
+  </div>
+
+  <footer class="admin-footer">
+    © 2025 Dinhata Buzzer Hub | Powered by Biswajit Roy
+  </footer>
+
+  <script>
+    const container = document.getElementById("cartContainer");
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    function renderCart() {
+      container.innerHTML = "";
+      if (cart.length === 0) {
+        container.innerHTML = "<h2 style='text-align:center;'>🛒 Your cart is empty!</h2>";
+        return;
+      }
+
+      cart.forEach((item, index) => {
+        const div = document.createElement("div");
+        div.classList.add("admin-card");
+        div.innerHTML = `
+          <h2>${item.name}</h2>
+          <p>Price: ₹${item.price}</p>
+          <button onclick="removeItem(${index})">Remove</button>
+        `;
+        container.appendChild(div);
+      });
+
+      const total = cart.reduce((sum, i) => sum + i.price, 0);
+      const totalDiv = document.createElement("div");
+      totalDiv.classList.add("admin-card");
+      totalDiv.innerHTML = `<h2>Total: ₹${total}</h2>`;
+      container.appendChild(totalDiv);
+    }
+
+    function removeItem(index) {
+      cart.splice(index, 1);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      renderCart();
+    }
+
+    function checkout() {
+      if (cart.length === 0) {
+        alert("Your cart is empty!");
+        return;
+      }
+      window.location.href = "checkout.html";
+    }
+
+    renderCart();
+  </script>
+</body>
+</html>

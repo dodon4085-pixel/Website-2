@@ -1,91 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin Panel | Dinhata Buzzer Hub</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
   <header class="admin-header">
-    <h2>⚙️ Admin Dashboard</h2>
-    <div class="header-actions">
-      <button id="toggleTheme">🌗</button>
-      <button id="logoutBtn">Logout</button>
-    </div>
+    <h1>⚙️ Dinhata Buzzer Hub - Admin Panel</h1>
+    <button id="logoutBtn" class="logout-btn">Logout</button>
   </header>
 
-  <main class="admin-main">
-    <aside class="sidebar">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="active" data-section="dashboard">📊 Dashboard</li>
-        <li data-section="products">🛒 Products</li>
-        <li data-section="orders">📦 Orders</li>
-        <li data-section="settings">⚙️ Settings</li>
-        <li data-section="telegram">🤖 Telegram Log</li>
-      </ul>
-    </aside>
+  <main class="admin-container">
+    <section class="admin-card">
+      <h2>🧩 Basic Controls</h2>
+      <button onclick="backupData()">📦 Backup Data to Telegram</button>
+      <button onclick="clearCart()">🧹 Clear All Cart Data</button>
+      <button onclick="sendCustomAlert()">📢 Send Custom Alert</button>
+    </section>
 
-    <section class="content">
+    <section class="admin-card">
+      <h2>📊 Advanced Tools</h2>
+      <button onclick="sendOrderNotification('Order ID: #1234\nCustomer: Biswajit Roy\nStatus: Confirmed')">
+        🧾 Send Test Order Notification
+      </button>
+      <button onclick="generateReport()">📈 Generate Report (Local)</button>
+      <button onclick="exportData()">💾 Export Local Data</button>
+    </section>
 
-      <!-- Dashboard Section -->
-      <div id="dashboard" class="section active">
-        <h2>Dashboard Overview</h2>
-        <div class="cards">
-          <div class="card"><h3>🛍️ Total Products</h3><p id="totalProducts">0</p></div>
-          <div class="card"><h3>📦 Total Orders</h3><p id="totalOrders">0</p></div>
-          <div class="card"><h3>👤 Users</h3><p id="totalUsers">0</p></div>
-          <div class="card"><h3>💰 Revenue</h3><p id="totalRevenue">₹0</p></div>
-        </div>
-      </div>
-
-      <!-- Products Section -->
-      <div id="products" class="section">
-        <h2>Manage Products</h2>
-        <button id="addProductBtn">➕ Add Product</button>
-        <table id="productTable">
-          <thead>
-            <tr>
-              <th>ID</th><th>Name</th><th>Price</th><th>Action</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-      </div>
-
-      <!-- Orders Section -->
-      <div id="orders" class="section">
-        <h2>Orders</h2>
-        <table id="orderTable">
-          <thead>
-            <tr>
-              <th>ID</th><th>Customer</th><th>Status</th><th>Action</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-      </div>
-
-      <!-- Settings Section -->
-      <div id="settings" class="section">
-        <h2>Settings</h2>
-        <label>Change Admin Password:</label>
-        <input type="password" id="newPassword" placeholder="Enter new password">
-        <button id="savePassword">Save</button>
-      </div>
-
-      <!-- Telegram Log Section -->
-      <div id="telegram" class="section">
-        <h2>Telegram Activity Log</h2>
-        <div id="telegramLog" class="log-box"></div>
-      </div>
-
+    <section class="admin-card">
+      <h2>🔧 System Actions</h2>
+      <button onclick="resetAdmin()">🚫 Reset Admin Access</button>
+      <button onclick="testTelegram()">🤖 Test Telegram Bot</button>
     </section>
   </main>
 
-  <script src="config.js"></script>
-  <script src="admin.js"></script>
+  <footer class="admin-footer">
+    <p>© 2025 Dinhata Buzzer Hub | All Rights Reserved</p>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    // =========================
+    // 🧠 Extra Admin Functions
+    // =========================
+    function generateReport() {
+      alert("📈 Report generated successfully (sample demo).");
+    }
+
+    function exportData() {
+      const data = localStorage.getItem("cart") || "No cart data available.";
+      const blob = new Blob([data], { type: "text/plain" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "backup-data.txt";
+      link.click();
+    }
+
+    function resetAdmin() {
+      localStorage.removeItem("adminAccess");
+      alert("🔐 Admin access reset. You’ll need to log in again.");
+      window.location.href = "index.html";
+    }
+
+    function testTelegram() {
+      sendTelegramMessage("🤖 Bot test successful from Dinhata Buzzer Hub Admin!");
+      alert("✅ Test message sent to Telegram (check your bot).");
+    }
+
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+      resetAdmin();
+    });
+  </script>
 </body>
 </html>

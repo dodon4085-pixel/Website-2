@@ -1,26 +1,6 @@
-/* ===========================
-   Dinhata Buzzer Hub - Admin Panel
-   Responsive + Dark Mode
-=========================== */
-
-/* Root colors */
-:root {
-  --primary: #2874f0;
-  --accent: #ff9f00;
-  --bg: #f8f9fa;
-  --text: #333;
-  --card-bg: #fff;
-  --shadow: rgba(0,0,0,0.1);
-}
-
-body.dark {
-  --bg: #121212;
-  --text: #eee;
-  --card-bg: #1e1e1e;
-  --shadow: rgba(255,255,255,0.05);
-}
-
-/* Reset */
+/* ===============================
+   🌐 Global Styles
+   =============================== */
 * {
   margin: 0;
   padding: 0;
@@ -28,254 +8,168 @@ body.dark {
   font-family: "Poppins", sans-serif;
 }
 
-/* Body */
 body {
-  background: var(--bg);
-  color: var(--text);
+  background: linear-gradient(135deg, #1e1e2f, #27293d);
+  color: #fff;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
-/* Login Page */
+/* ===============================
+   🔐 Login Page Styles
+   =============================== */
 .login-container {
-  width: 100%;
-  max-width: 380px;
-  margin: 120px auto;
-  background: var(--card-bg);
-  box-shadow: 0 0 20px var(--shadow);
-  border-radius: 12px;
-  padding: 30px;
+  margin: auto;
   text-align: center;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
+  width: 90%;
+  max-width: 400px;
 }
 
 .login-container h1 {
-  color: var(--primary);
+  font-size: 26px;
+  margin-bottom: 10px;
+  color: #00d1ff;
+}
+
+.login-container h3 {
+  font-size: 18px;
+  margin-bottom: 20px;
+  color: #ccc;
 }
 
 .login-container input {
   width: 100%;
   padding: 12px;
-  margin: 16px 0;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  border: none;
   outline: none;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-size: 16px;
+}
+
+.login-container input::placeholder {
+  color: #aaa;
 }
 
 .login-container button {
-  background: var(--primary);
+  width: 100%;
+  background: #00d1ff;
   border: none;
-  color: white;
-  padding: 12px 20px;
-  border-radius: 8px;
+  padding: 12px;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
   cursor: pointer;
   transition: 0.3s;
 }
 
 .login-container button:hover {
-  background: #0056e0;
+  background: #00a6cc;
 }
 
-#loginStatus {
-  margin-top: 10px;
-  color: red;
-}
-
-/* Admin Layout */
+/* ===============================
+   🧭 Admin Panel Styles
+   =============================== */
 .admin-header {
-  background: var(--primary);
-  color: white;
+  background: #14142b;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 14px 20px;
+  padding: 15px 25px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
-.header-actions button {
-  background: rgba(255,255,255,0.15);
-  border: none;
-  color: white;
-  padding: 8px 10px;
-  margin-left: 8px;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: 0.3s;
+.admin-header h1 {
+  font-size: 20px;
+  color: #00d1ff;
 }
 
-.header-actions button:hover {
-  background: rgba(255,255,255,0.3);
-}
-
-/* Layout grid */
-.admin-main {
-  display: flex;
-  flex: 1;
-  height: 100%;
-}
-
-/* Sidebar */
-.sidebar {
-  width: 240px;
-  background: var(--card-bg);
-  box-shadow: 2px 0 10px var(--shadow);
-  padding: 20px;
-}
-
-.sidebar h3 {
-  margin-bottom: 10px;
-  color: var(--primary);
-}
-
-.sidebar ul {
-  list-style: none;
-}
-
-.sidebar li {
-  padding: 10px;
-  margin-bottom: 8px;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.sidebar li:hover,
-.sidebar li.active {
-  background: var(--primary);
-  color: white;
-}
-
-/* Content Area */
-.content {
-  flex: 1;
-  padding: 20px;
-  overflow-y: auto;
-}
-
-/* Dashboard Cards */
-.cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 15px;
-}
-
-.card {
-  background: var(--card-bg);
-  box-shadow: 0 2px 10px var(--shadow);
-  border-radius: 10px;
-  padding: 20px;
-  text-align: center;
-  transition: transform 0.3s ease;
-}
-
-.card:hover {
-  transform: translateY(-3px);
-}
-
-.card h3 {
-  font-size: 16px;
-  color: var(--primary);
-}
-
-.card p {
-  font-size: 24px;
-  margin-top: 8px;
-}
-
-/* Tables */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  background: var(--card-bg);
-  box-shadow: 0 2px 10px var(--shadow);
-  border-radius: 10px;
-  overflow: hidden;
-}
-
-th, td {
-  padding: 12px 10px;
-  text-align: left;
-  border-bottom: 1px solid #ddd;
-}
-
-th {
-  background: var(--primary);
-  color: white;
-}
-
-tr:hover {
-  background: rgba(40,116,240,0.1);
-}
-
-/* Buttons inside tables */
-table button {
-  padding: 6px 12px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.edit-btn {
-  background: #ffc107;
-  color: #333;
-}
-
-.delete-btn {
-  background: #dc3545;
-  color: white;
-}
-
-.ship-btn {
-  background: #28a745;
-  color: white;
-}
-
-/* Settings section */
-#settings input {
-  padding: 10px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  margin: 10px 0;
-  width: 250px;
-}
-
-#settings button {
-  background: var(--primary);
+.logout-btn {
+  background: #ff4444;
   color: white;
   border: none;
-  padding: 10px 16px;
   border-radius: 8px;
+  padding: 8px 15px;
+  font-size: 14px;
   cursor: pointer;
   transition: 0.3s;
 }
 
-#settings button:hover {
-  background: #0056e0;
+.logout-btn:hover {
+  background: #cc0000;
 }
 
-/* Telegram Log */
-.log-box {
-  background: var(--card-bg);
+.admin-container {
+  display: grid;
+  gap: 20px;
+  padding: 25px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  flex-grow: 1;
+}
+
+.admin-card {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s;
+}
+
+.admin-card:hover {
+  transform: scale(1.02);
+}
+
+.admin-card h2 {
+  margin-bottom: 15px;
+  color: #00d1ff;
+}
+
+.admin-card button {
+  width: 100%;
+  background: #00d1ff;
+  border: none;
+  padding: 10px;
+  margin-top: 10px;
   border-radius: 10px;
-  padding: 20px;
-  box-shadow: 0 2px 10px var(--shadow);
-  height: 300px;
-  overflow-y: auto;
-  font-family: monospace;
+  font-size: 15px;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
 }
 
-/* Responsive */
+.admin-card button:hover {
+  background: #00a6cc;
+}
+
+.admin-footer {
+  background: #14142b;
+  text-align: center;
+  padding: 12px;
+  color: #999;
+  font-size: 13px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* ===============================
+   📱 Responsive Design
+   =============================== */
 @media (max-width: 768px) {
-  .admin-main {
-    flex-direction: column;
+  .admin-header h1 {
+    font-size: 16px;
   }
-  .sidebar {
-    width: 100%;
-    display: flex;
-    overflow-x: auto;
+  .admin-container {
+    padding: 15px;
   }
-  .sidebar li {
-    flex: 1;
-    text-align: center;
+  .admin-card button {
+    font-size: 14px;
   }
 }

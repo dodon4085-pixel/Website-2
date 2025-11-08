@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout - Dinhata Buzzer Hub</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="admin-header">
+    <h1>💳 Checkout</h1>
+    <button class="logout-btn" onclick="window.location.href='cart.html'">Back to Cart</button>
+  </header>
+
+  <main class="admin-container">
+    <form id="checkoutForm" class="admin-card" onsubmit="submitOrder(event)">
+      <h2>Shipping Details</h2>
+      <input type="text" id="name" placeholder="Full Name" required>
+      <input type="text" id="address" placeholder="Full Address" required>
+      <input type="text" id="phone" placeholder="Phone Number" required>
+      <input type="email" id="email" placeholder="Email (optional)">
+
+      <h2>Payment Method</h2>
+      <select id="payment" required>
+        <option value="">Select Payment</option>
+        <option value="Cash on Delivery">💵 Cash on Delivery</option>
+        <option value="UPI">📱 UPI Payment</option>
+        <option value="Card">💳 Card Payment</option>
+      </select>
+
+      <button type="submit" class="logout-btn" style="background:#00d1ff;">Confirm Order</button>
+    </form>
+
+    <div id="orderSummary" class="admin-card">
+      <h2>Order Summary</h2>
+      <div id="cartItems"></div>
+      <h3 id="totalAmount"></h3>
+    </div>
+  </main>
+
+  <footer class="admin-footer">
+    © 2025 Dinhata Buzzer Hub | Powered by Biswajit Roy
+  </footer>
+
+  <script>
+    const BOT_TOKEN = "8589527391:AAEF3bCeKx0J-y9dc0KHeJCOolzHLJjYVo4"; // Dummy
+    const CHAT_ID = "7681046220"; // Dummy
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    const itemsContainer = document.getElementById("cartItems");
+    const totalElement = document.getElementById("totalAmount");
+
+    function renderSummary() {
+      if (cart.length === 0) {
+        itemsContainer.innerHTML = "<p>No items in cart!</p>";
+        totalElement.textContent = "";
+        return;
+      }
+      itemsContainer.innerHTML = cart.map(i => `<p>${i.name} - ₹${i.price}</p>`).join("");
+      const total = cart.reduce((sum, i) => sum + i.price, 0);
+      totalElement.textContent = `Total Amount: ₹${total}`;
+    }
+
+    async function submitOrder(e) {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value.trim();
+      const address = document.getElementById("address").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const payment = document.getElementById("payment").value;
+
+      if (!name || !address || !phone || !payment) {
+        alert("Please fill all required fields.");
+        return;
+      }
+
+      const orderDetails = `
+📦 *New Order from Dinhata Buzzer Hub*  
+👤 Name: ${name}
+📞 Phone: ${phone}
+🏠 Address: ${address}
+✉️ Email: ${email || "N/A"}
+💰 Payment: ${payment}
+
+🛒 Items:
+${cart.map(i => `- ${i.name} (₹${i.price})`).join("\n")}
+
+💵 Total: ₹${cart.reduce((sum, i) => sum + i.price, 0)}
+      `;
+
+      try {
+        await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            chat_id: CHAT_ID,
+            text: orderDetails,
+            parse_mode: "Markdown"
+          })
+        });
+
+        localStorage.removeItem("cart");
+        window.location.href = "order-success.html";
+      } catch (error) {
+        alert("Error placing order!");
+        console.error(error);
+      }
+    }
+
+    renderSummary();
+  </script>
+</body>
+</html>

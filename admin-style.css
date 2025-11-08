@@ -1,0 +1,242 @@
+/* ================================
+   🧭 Dinhata Buzzer Hub Admin Panel
+   Responsive Dashboard Styling
+   ================================ */
+
+:root {
+  --primary: #2874f0;
+  --secondary: #fb641b;
+  --bg: #f8f9fa;
+  --text: #333;
+  --white: #fff;
+  --shadow: rgba(0, 0, 0, 0.1);
+  --radius: 10px;
+}
+
+/* 🌙 Dark Mode */
+body.dark {
+  --bg: #1e1e2f;
+  --text: #f1f1f1;
+  --white: #2b2b3b;
+  --shadow: rgba(0, 0, 0, 0.6);
+}
+
+/* General Layout */
+body {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* Header */
+.admin-header {
+  background: var(--primary);
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 5%;
+  box-shadow: 0 2px 10px var(--shadow);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.admin-header h1 {
+  font-size: 20px;
+  margin: 0;
+}
+
+.header-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.header-btn {
+  background: white;
+  color: var(--primary);
+  border: none;
+  border-radius: var(--radius);
+  padding: 8px 14px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+.header-btn:hover {
+  background: var(--primary);
+  color: white;
+}
+
+/* Dashboard Main Layout */
+.dashboard {
+  display: flex;
+  flex: 1;
+  height: calc(100vh - 60px);
+}
+
+/* Sidebar */
+.sidebar {
+  width: 260px;
+  background: var(--white);
+  box-shadow: 2px 0 10px var(--shadow);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: 0.3s ease;
+}
+
+.sidebar a {
+  text-decoration: none;
+  color: var(--text);
+  padding: 10px 14px;
+  border-radius: var(--radius);
+  transition: 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+}
+
+.sidebar a:hover,
+.sidebar a.active {
+  background: var(--primary);
+  color: white;
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+/* Cards / Widgets */
+.card {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: 0 2px 10px var(--shadow);
+  padding: 20px;
+  margin-bottom: 20px;
+  transition: transform 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+}
+
+.card h3 {
+  margin: 0 0 10px 0;
+  color: var(--primary);
+}
+
+/* Buttons */
+.btn {
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  padding: 10px 16px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  background: var(--secondary);
+}
+
+/* Login Modal */
+.login-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(3px);
+  z-index: 2000;
+}
+
+.login-box {
+  background: var(--white);
+  padding: 30px;
+  border-radius: var(--radius);
+  box-shadow: 0 2px 15px var(--shadow);
+  text-align: center;
+  width: 90%;
+  max-width: 400px;
+}
+
+.login-box h2 {
+  margin-bottom: 20px;
+  color: var(--primary);
+}
+
+.login-box input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: var(--radius);
+  outline: none;
+  transition: 0.2s;
+}
+
+.login-box input:focus {
+  border-color: var(--primary);
+}
+
+.login-box button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: var(--radius);
+  background: var(--primary);
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.login-box button:hover {
+  background: var(--secondary);
+}
+
+/* Dark Mode Toggle */
+.toggle-dark {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .dashboard {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    flex-direction: row;
+    overflow-x: auto;
+  }
+
+  .sidebar a {
+    flex: 1;
+    justify-content: center;
+    font-size: 14px;
+  }
+
+  .main-content {
+    padding: 15px;
+  }
+}
